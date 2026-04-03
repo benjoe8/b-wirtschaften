@@ -1,0 +1,39 @@
+# ============================================================
+# b-wirtschaften.de – Apache .htaccess SEO Konfiguration
+# ============================================================
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 1. HTTP → HTTPS Redirect (301 permanent)
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # 2. www → non-www (Canonical: b-wirtschaften.de ohne www)
+  RewriteCond %{HTTP_HOST} ^www\.b-wirtschaften\.de$ [NC]
+  RewriteRule ^ https://b-wirtschaften.de%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# Admin-Login: noindex per Header
+<IfModule mod_headers.c>
+  <If "%{REQUEST_URI} =~ m|^/web/login|">
+    Header set X-Robots-Tag "noindex, nofollow"
+  </If>
+</IfModule>
+
+# Cache-Optimierung (Core Web Vitals)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType application/json "access plus 1 day"
+</IfModule>
+
+# GZIP Kompression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml
+</IfModule>

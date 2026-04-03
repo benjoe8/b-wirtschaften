@@ -1,0 +1,38 @@
+[
+  {
+    "id": "winbot",
+    "name": "ECOVACS WINBOT Fensterputzroboter",
+    "category": "Reinigungsgeräte",
+    "description": "Automatischer Fensterputzroboter mit Ultraschall-Zerstäubung und 9-Stufen-Schutzsystem. Ideal für große Fensterflächen.",
+    "daily_rate": 15.00,
+    "weekly_rate": 80.00,
+    "features": ["Automatische Fensterreinigung", "Ultraschall-Zerstäubung", "9-Stufen-Schutzsystem", "Für alle Glasflächen"],
+    "image": "/img/products/winbot.jpg",
+    "email": "winbot.mieten@b-wirtschaften.de",
+    "available": true
+  },
+  {
+    "id": "kaercher-k4",
+    "name": "Kärcher K4 Universal Hochdruckreiniger",
+    "category": "Reinigungsgeräte",
+    "description": "Leistungsstarker Hochdruckreiniger für Terrassen, Autos, Fassaden und vieles mehr.",
+    "daily_rate": 25.00,
+    "weekly_rate": 120.00,
+    "features": ["130 bar Druck", "420 l/h Fördermenge", "Universal Edition mit T5 Zubehör", "Ideal für Auto & Terrasse"],
+    "image": "/img/products/kaercher.jpg",
+    "email": "kaercher.mieten@b-wirtschaften.de",
+    "available": true
+  },
+  {
+    "id": "anhaenger-750",
+    "name": "Kastenanhänger 750kg Aluminium",
+    "category": "Transport & Logistik",
+    "description": "Robuster Aluminium-Kastenanhänger mit 750kg Nutzlast. Perfekt für Umzüge und Transporte.",
+    "daily_rate": 35.00,
+    "weekly_rate": 180.00,
+    "features": ["750 kg Nutzlast", "Aluminium-Konstruktion", "Plane und Gestell", "Ideale Maße für Standardtransporte"],
+    "image": "/img/products/anhaenger.jpg",
+    "email": "anhaenger750kg.mieten@b-wirtschaften.de",
+    "available": true
+  }
+]

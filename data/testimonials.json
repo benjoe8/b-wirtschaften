@@ -1,0 +1,12 @@
+[
+  {
+    "id": "placeholder-1",
+    "author": "Hausverwaltung M.",
+    "location": "Bochum",
+    "rating": 5,
+    "text": "Endlich ein Hausmeisterservice, auf den man sich verlassen kann. Schnelle Reaktionszeiten und saubere Arbeit.",
+    "service": "Hausmeisterservice",
+    "date": "2026-03-01",
+    "active": false
+  }
+]

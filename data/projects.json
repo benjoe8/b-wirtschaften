@@ -1,0 +1,13 @@
+[
+  {
+    "id": "example-1",
+    "title": "Gartenpflege Wohnanlage",
+    "category": "Gartenpflege",
+    "location": "Bochum-Werne",
+    "description": "Komplette Neugestaltung der Außenanlagen einer Wohnanlage mit 12 Einheiten.",
+    "before_image": "",
+    "after_image": "",
+    "date": "2026-03-01",
+    "active": false
+  }
+]

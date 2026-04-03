@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Admin- & Login-Bereiche nicht indexieren
+Disallow: /web/login
+Disallow: /web/admin
+Disallow: /admin/
+Disallow: /api/
+
+Sitemap: https://b-wirtschaften.de/sitemap.xml
