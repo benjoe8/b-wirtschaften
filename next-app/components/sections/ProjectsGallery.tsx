@@ -18,13 +18,18 @@ export function ProjectsGallery() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/data/projects.json")
-      .then((r) => r.json())
+    // Fetch via server.js API (nginx → port 3100) which reads from /data/
+    // server.js already filters active !== false, so no client-side filter needed
+    fetch("/api/projects")
+      .then((r) => {
+        if (!r.ok) throw new Error("API error");
+        return r.json();
+      })
       .then((data) => {
         const list: Project[] = Array.isArray(data)
           ? data
           : (data?.projects ?? []);
-        setProjects(list.filter((p) => p.active !== false));
+        setProjects(list);
       })
       .catch(() => {})
       .finally(() => setLoading(false));
