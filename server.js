@@ -80,9 +80,11 @@ const server = http.createServer(async (req,res) => {
       res.writeHead(200,CORS);res.end(JSON.stringify({success:true,count:projects.length}));return;
     }
     if(url==='/api/projects'&&req.method==='GET'){
-      if(!checkApiKey(req)){res.writeHead(401,CORS);res.end(JSON.stringify({error:'Unauthorized'}));return;}
+      // Public: returns only active projects (no API key required)
       const d=readJSON('projects.json')||{projects:[]};
-      res.writeHead(200,CORS);res.end(JSON.stringify(d));return;
+      const list=Array.isArray(d)?d:d.projects||[];
+      const active=list.filter(p=>p.active!==false);
+      res.writeHead(200,CORS);res.end(JSON.stringify(active));return;
     }
     if(url==='/api/health'){res.writeHead(200,CORS);res.end(JSON.stringify({status:'ok',ts:new Date().toISOString()}));return;}
     res.writeHead(404,CORS);res.end(JSON.stringify({error:'Not found'}));
