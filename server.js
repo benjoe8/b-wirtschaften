@@ -19,10 +19,11 @@ const https = require('https');
 const fs    = require('fs');
 const path  = require('path');
 
-const PORT        = process.env.BW_API_PORT        || 3100;
-const API_KEY     = process.env.BW_API_KEY         || '';
-const DATA_DIR    = path.join(__dirname, 'data');
-const N8N_WEBHOOK = process.env.N8N_CONTACT_WEBHOOK || 'https://n8n.estate-data.link/webhook/bw-contact';
+const PORT            = process.env.BW_API_PORT        || 3100;
+const API_KEY         = process.env.BW_API_KEY         || '';
+const TELEGRAM_TOKEN  = process.env.TELEGRAM_BOT_TOKEN || '';
+const DATA_DIR        = path.join(__dirname, 'data');
+const N8N_WEBHOOK     = process.env.N8N_CONTACT_WEBHOOK || 'https://n8n.estate-data.link/webhook/bw-contact';
 const CORS = { 'Access-Control-Allow-Origin':'*', 'Access-Control-Allow-Methods':'GET,POST,OPTIONS', 'Access-Control-Allow-Headers':'Content-Type,x-api-key', 'Content-Type':'application/json' };
 
 /** Validate API key from x-api-key header or ?api_key= query param */
@@ -85,6 +86,14 @@ const server = http.createServer(async (req,res) => {
       const list=Array.isArray(d)?d:d.projects||[];
       const active=list.filter(p=>p.active!==false);
       res.writeHead(200,CORS);res.end(JSON.stringify(active));return;
+    }
+    if(url.startsWith('/api/img')&&req.method==='GET'){
+      // Proxy Telegram image by file_id – bot token stays server-side
+      const fid=(()=>{try{return new URL(req.url,'http://localhost').searchParams.get('fid')||'';}catch{return '';}})();
+      if(!fid||!TELEGRAM_TOKEN){res.writeHead(404,CORS);res.end(JSON.stringify({error:'Not found'}));return;}
+      const infoUrl=`https://api.telegram.org/bot${TELEGRAM_TOKEN}/getFile?file_id=${encodeURIComponent(fid)}`;
+      https.get(infoUrl,r2=>{let b='';r2.on('data',c=>{b+=c;});r2.on('end',()=>{try{const d=JSON.parse(b);if(!d.ok||!d.result.file_path){res.writeHead(404,CORS);res.end();return;}const dlUrl=`https://api.telegram.org/file/bot${TELEGRAM_TOKEN}/${d.result.file_path}`;https.get(dlUrl,r3=>{res.writeHead(200,{'Content-Type':r3.headers['content-type']||'image/jpeg','Cache-Control':'public, max-age=86400'});r3.pipe(res);}).on('error',()=>{res.writeHead(502,CORS);res.end();});}catch(e){res.writeHead(500,CORS);res.end();}});}).on('error',()=>{res.writeHead(502,CORS);res.end();});
+      return;
     }
     if(url==='/api/health'){res.writeHead(200,CORS);res.end(JSON.stringify({status:'ok',ts:new Date().toISOString()}));return;}
     res.writeHead(404,CORS);res.end(JSON.stringify({error:'Not found'}));
